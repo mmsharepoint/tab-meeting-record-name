@@ -42,7 +42,7 @@ export const PronounceNameTab = () => {
                         message
                     });
                 },
-                resources: [process.env.PRONOUNCENAME_APP_URI as string]
+                resources: [`api://${process.env.HOSTNAME}/${process.env.PRONOUNCENAME_APP_ID}`]
             });
         } else {
             setEntityId("Not in Microsoft Teams");
