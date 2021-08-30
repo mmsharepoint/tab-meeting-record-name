@@ -42,3 +42,14 @@ img.logo {
 .userRecording {
     width: 260px;
 }
+.audioPanel {
+	border: 1px dotted black;
+    border-radius: 8px;
+    padding: 8px;
+    display: inline-block;
+	margin-bottom: 8px;
+}
+.audioIcon {
+	margin-right: 8px;
+	cursor: pointer;
+}

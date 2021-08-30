@@ -1,6 +1,6 @@
 import Axios from "axios";
 import * as React from "react";
-// import "./UserRecordedName.css";
+import { CustomAudio } from "./CustomAudio";
 
 export const UserRecordedName = (props) => {
     const [audioUrl, setAudioUrl] = React.useState<string>("");
@@ -27,7 +27,8 @@ export const UserRecordedName = (props) => {
     return (
         <div className="userRecording">
             <span>{props.userName}</span>
-            {audioUrl !== "" && <audio controls src={audioUrl}></audio>}
+            {/* {audioUrl !== "" && <audio controls src={audioUrl}></audio>} */}
+            {audioUrl !== "" && <CustomAudio audioUrl={audioUrl} />}
         </div>
     );
 };

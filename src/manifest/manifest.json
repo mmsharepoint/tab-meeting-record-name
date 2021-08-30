@@ -1,6 +1,6 @@
 {
-  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.8/MicrosoftTeams.schema.json",
-  "manifestVersion": "1.8",
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.9/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.9",
   "id": "{{APPLICATION_ID}}",
   "version": "{{VERSION}}",
   "packageName": "{{PACKAGE_NAME}}",
@@ -32,12 +32,14 @@
         "team"
       ],
       "context": [
+        "privateChatTab",
         "meetingDetailsTab",
         "meetingChatTab",
         "meetingSidePanel",
         "meetingStage",
         "channelTab"
-      ]
+      ],
+      "meetingSurfaces": ["sidePanel"]
     }
   ],
   "staticTabs": [],
