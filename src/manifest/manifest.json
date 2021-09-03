@@ -59,6 +59,9 @@
     "identity",
     "messageTeamMembers"
   ],
+  "devicePermissions": [
+    "media"
+  ],
   "validDomains": [
     "{{HOSTNAME}}"
   ],

@@ -4,6 +4,7 @@ import passport = require("passport");
 import { BearerStrategy, VerifyCallback, IBearerStrategyOption, ITokenPayload } from "passport-azure-ad";
 import qs = require("qs");
 import * as debug from "debug";
+import { IRecording } from "../../model/IRecording";
 const log = debug("msteams");
 
 export const meetingService = (options: any): express.Router => {
@@ -132,14 +133,14 @@ export const meetingService = (options: any): express.Router => {
             });
     };
 
-    const getRecordingsPerMeeting = async (meetingID: string, accessToken: string) => {
+    const getRecordingsPerMeeting = async (meetingID: string, accessToken: string): Promise<IRecording[]> => {
         const listResponse = await getList(accessToken);        
         const requestUrl: string = `https://graph.microsoft.com/v1.0/sites/${process.env.SITEID}/lists/${listResponse.list.id}/items?$expand=fields($select=id,MeetingID,UserDispName,UserID),driveItem&$filter=fields/MeetingID eq '${meetingID}'`;
         const response = await Axios.get(requestUrl, {
             headers: {          
                 Authorization: `Bearer ${accessToken}`,
         }});
-        let recordings: any[] = [];
+        let recordings: IRecording[] = [];
         response.data.value.forEach(element => {
             recordings.push({ 
                             id: element.driveItem.id, 

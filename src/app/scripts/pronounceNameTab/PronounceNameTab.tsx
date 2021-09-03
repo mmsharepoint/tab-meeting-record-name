@@ -7,6 +7,7 @@ import jwt_decode from "jwt-decode";
 import Axios from "axios";
 import { RecordingArea } from "./components/RecordingArea";
 import { UserRecordedName } from "./components/UserRecordedName";
+import { IRecording } from "../../../model/IRecording";
 
 /**
  * Implementation of the Pronounce name content page
@@ -14,15 +15,14 @@ import { UserRecordedName } from "./components/UserRecordedName";
 export const PronounceNameTab = () => {
 
     const [{ inTeams, theme, context }] = useTeams();
-    const [entityId, setEntityId] = useState<string | undefined>();
     const [meetingId, setMeetingId] = useState<string | undefined>();
-    const [name, setName] = useState<string>();
+    const [name, setName] = useState<string>("");
     const [accesstoken, setAccesstoken] = useState<string>();
     const [error, setError] = useState<string>();
     const [recording, setRecording] = useState<boolean>(false);
-    const [recordings, setRecordings] = useState([]);
+    const [recordings, setRecordings] = useState<IRecording[]>([]);
 
-    const [userBlobUrl, setUserBlobUrl] = useState<string>("");
+    // const [userBlobUrl, setUserBlobUrl] = useState<string>("");
 
     useEffect(() => {
         if (inTeams === true) {
@@ -44,14 +44,11 @@ export const PronounceNameTab = () => {
                 },
                 resources: [`api://${process.env.HOSTNAME}/${process.env.PRONOUNCENAME_APP_ID}`]
             });
-        } else {
-            setEntityId("Not in Microsoft Teams");
         }
     }, [inTeams]);
 
     useEffect(() => {
         if (context) {
-            setEntityId(context.entityId);
             setMeetingId(context.meetingId);
         }
     }, [context]);
@@ -62,16 +59,16 @@ export const PronounceNameTab = () => {
 
     const blobReceived = (blob: Blob, userID: string) => {
         setRecording(false);
-        const url = URL.createObjectURL(blob);
-        setUserBlobUrl(url);
-
         const formData = new FormData();
-        formData.append("file", blob, `${userID}.webm`);
+        formData.append("file", blob, `${userID}_${meetingId}.webm`);
         formData.append("meetingID", meetingId!);
         formData.append("userID", userID!);
         formData.append("userName", name!);
         Axios.post(`https://${process.env.HOSTNAME}/api/upload`, formData,
-        { headers: { "Authorization": `Bearer ${accesstoken}`, "content-type": "multipart/form-data" }});
+        { headers: { "Authorization": `Bearer ${accesstoken}`, "content-type": "multipart/form-data" }})
+            .then(r => {
+                getRecordings(accesstoken!);
+            });
     };
 
     const getRecordings = async (token: string) => {
@@ -96,13 +93,12 @@ export const PronounceNameTab = () => {
                 <Flex.Item>
                     <div>
                         {recordings.length > 0 && recordings.map((recording: any) => {
-                            return <UserRecordedName userName={recording.username} driveItemId={recording.id} accessToken={accesstoken} />;
+                            return <UserRecordedName key={recording.id} userName={recording.username} driveItemId={recording.id} accessToken={accesstoken} dataUrl={recording.dataUrl} />;
                         })}
 
                         {!recording ? (<div>
                             <Button onClick={btnClicked}>Record name</Button>
-                        </div>) : (<RecordingArea userID={context?.userObjectId} callback={blobReceived} />)}
-                        {userBlobUrl !== "" && <UserRecordedName userName={context?.userPrincipalName} userUrl={userBlobUrl} />}
+                        </div>) : (<RecordingArea userID={context?.userObjectId} clientType={context?.hostClientType} callback={blobReceived} />)}
                     </div>
                 </Flex.Item>
             </Flex>

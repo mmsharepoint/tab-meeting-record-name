@@ -6,7 +6,8 @@ export const UserRecordedName = (props) => {
     const [audioUrl, setAudioUrl] = React.useState<string>("");
 
     React.useEffect(() => {
-        Axios.get(`https://${process.env.HOSTNAME}/api/audio/${props.driveItemId}`, {
+        if(typeof props.dataUrl === 'undefined' || props.dataUrl === null || props.dataUrl === "" ) {
+            Axios.get(`https://${process.env.HOSTNAME}/api/audio/${props.driveItemId}`, {
                             responseType: "blob",
                             headers: {
                                 Authorization: `Bearer ${props.accessToken}`
@@ -22,6 +23,10 @@ export const UserRecordedName = (props) => {
                                 }
                             };
                         });
+        }
+        else {
+            setAudioUrl(props.dataUrl);
+        }
     }, []);
 
     return (
