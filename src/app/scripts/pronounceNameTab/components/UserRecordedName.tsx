@@ -6,7 +6,7 @@ export const UserRecordedName = (props) => {
     const [audioUrl, setAudioUrl] = React.useState<string>("");
 
     React.useEffect(() => {
-        if(typeof props.dataUrl === 'undefined' || props.dataUrl === null || props.dataUrl === "" ) {
+        if (typeof props.dataUrl === "undefined" || props.dataUrl === null || props.dataUrl === "") {
             Axios.get(`https://${process.env.HOSTNAME}/api/audio/${props.driveItemId}`, {
                             responseType: "blob",
                             headers: {
@@ -23,8 +23,7 @@ export const UserRecordedName = (props) => {
                                 }
                             };
                         });
-        }
-        else {
+        } else {
             setAudioUrl(props.dataUrl);
         }
     }, []);

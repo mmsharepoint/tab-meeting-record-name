@@ -15,8 +15,8 @@
     "full": "tab meeting record name"
   },
   "description": {
-    "short": "TODO: add short description here",
-    "full": "TODO: add full description here"
+    "short": "Record your username to share in meeting.",
+    "full": "This app allows recording of your username to share in meeting how it's pronunced."
   },
   "icons": {
     "outline": "icon-outline.png",

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Provider, Flex, Text, Button, Header, MicrosoftStreamIcon } from "@fluentui/react-northstar";
+import { Provider, Flex, Button, Header, CloseIcon } from "@fluentui/react-northstar";
 import { useState, useEffect } from "react";
 import { useTeams } from "msteams-react-base-component";
 import * as microsoftTeams from "@microsoft/teams-js";
@@ -57,6 +57,9 @@ export const PronounceNameTab = () => {
         setRecording(true);
     };
 
+    const closeRecording = () => {
+        setRecording(false);
+    };
     const blobReceived = (blob: Blob, userID: string) => {
         setRecording(false);
         const formData = new FormData();
@@ -75,7 +78,6 @@ export const PronounceNameTab = () => {
         const response = await Axios.get(`https://${process.env.HOSTNAME}/api/files/${context?.meetingId}`,
         { headers: { Authorization: `Bearer ${token}` }});
 
-        console.log(response);
         setRecordings(response.data);
     };
 
@@ -83,7 +85,7 @@ export const PronounceNameTab = () => {
      * The render() method to create the UI of the tab
      */
     return (
-        <Provider theme={theme}>
+        <Provider className={context && context.frameContext === microsoftTeams.FrameContexts.sidePanel ? "panelSize" : ""} theme={theme}>
             <Flex fill={true} column styles={{
                 padding: ".8rem 0 .8rem .5rem"
             }}>
@@ -96,9 +98,14 @@ export const PronounceNameTab = () => {
                             return <UserRecordedName key={recording.id} userName={recording.username} driveItemId={recording.id} accessToken={accesstoken} dataUrl={recording.dataUrl} />;
                         })}
 
-                        {!recording ? (<div>
-                            <Button onClick={btnClicked}>Record name</Button>
-                        </div>) : (<RecordingArea userID={context?.userObjectId} clientType={context?.hostClientType} callback={blobReceived} />)}
+                        {(context && context.frameContext === microsoftTeams.FrameContexts.content) && <div>
+                            {!recording ? (
+                                <Button onClick={btnClicked}>Record name</Button>
+                            ) :
+                            (<div className="closeDiv"><CloseIcon className="closeIcon" onClick={closeRecording} />
+                            <RecordingArea userID={context?.userObjectId} clientType={context?.hostClientType} callback={blobReceived} />
+                            </div>)}
+                        </div>}
                     </div>
                 </Flex.Item>
             </Flex>

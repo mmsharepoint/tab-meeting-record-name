@@ -20,9 +20,18 @@ export const CustomAudio = (props) => {
     };
     const incVolume = () => {
         audioComp.current.volume += 0.1;
+        if (audioComp.current.muted) {
+            audioComp.current.muted = false;
+            setMuted(false);
+        }
     };
     const decVolume = () => {
         audioComp.current.volume -= 0.1;
+        if (audioComp.current.volume < 0.1) {
+            audioComp.current.volume = 0;
+            audioComp.current.muted = true;
+            setMuted(true);
+        }
     };
     const muteAudio = () => {
         audioComp.current.muted = !muted;
@@ -34,9 +43,9 @@ export const CustomAudio = (props) => {
                 {props.audioUrl !== "" && <audio ref={audioComp} src={props.audioUrl}></audio>}
                 <PlayIcon className="audioIcon" disabled={playing} onClick={playAudio} />
                 <PauseIcon className="audioIcon" disabled={!playing} onClick={pauseAudio} />
-                <VolumeUpIcon className="audioIcon" onClick={incVolume} />
-                <VolumeDownIcon className="audioIcon" onClick={decVolume} />
-                <SpeakerMuteIcon className="audioIcon" disabled={muted} onClick={muteAudio} />
+                <VolumeUpIcon className="audioIcon" title="Increase volume" onClick={incVolume} />
+                <VolumeDownIcon className="audioIcon" title="Decrease volume" disabled={muted} onClick={decVolume} />
+                <SpeakerMuteIcon className="audioIcon" title="Mute" disabled={muted} onClick={muteAudio} />
             </div>
         </div>
     );

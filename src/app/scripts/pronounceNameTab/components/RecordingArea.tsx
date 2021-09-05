@@ -18,35 +18,38 @@ export const RecordingArea = (props) => {
     const chunks = React.useRef<any[]>([]);
 
     React.useEffect(() => {
-      if (props.clientType === "desktop") {
-        let mediaInput: microsoftTeams.media.MediaInputs = {
-          mediaType: microsoftTeams.media.MediaType.Audio,
-          maxMediaCount: 1,
-        };
-        microsoftTeams.media.selectMedia(mediaInput, (error: microsoftTeams.SdkError, attachments: microsoftTeams.media.Media[]) => {
-          if (error) {
-            if (error.message) {
-              console.log(" ErrorCode: " + error.errorCode + error.message);
-            } else {
-              console.log(" ErrorCode: " + error.errorCode);
-            }
-          }
-          // If you want to directly use the audio file (for smaller file sizes (~4MB))    
-          if (attachments) {
-            let audioResult = attachments[0];
-          // var videoElement = document.createElement("video");
-          // videoElement.setAttribute("src", ("data:" + y.mimeType + ";base64," + y.preview));
-          //To use the audio file via get Media API for bigger audio file sizes greater than 4MB        
-            audioResult.getMedia((error: microsoftTeams.SdkError, blob: Blob) => {
-              if (blob) {
-                if (blob.type.includes("video")) {
-                  //  videoElement.setAttribute("src", URL.createObjectURL(blob));
-                }
-              }            
-            });
-          }
-        });
-      }      
+      // if (props.clientType === "desktop") {
+      //   let mediaInput: microsoftTeams.media.MediaInputs = {
+      //     mediaType: microsoftTeams.media.MediaType.Audio,
+      //     maxMediaCount: 1,
+      //   };
+      //   microsoftTeams.media.selectMedia(mediaInput, (error: microsoftTeams.SdkError, attachments: microsoftTeams.media.Media[]) => {
+      //     if (error) {
+      //       if (error.message) {
+      //         console.log(" ErrorCode: " + error.errorCode + error.message);
+      //       } else {
+      //         console.log(" ErrorCode: " + error.errorCode);
+      //       }
+      //     }
+      //     // If you want to directly use the audio file (for smaller file sizes (~4MB))
+      //     if (attachments) {
+      //       let audioResult = attachments[0];
+      //     // var videoElement = document.createElement("video");
+      //     // videoElement.setAttribute("src", ("data:" + y.mimeType + ";base64," + y.preview));
+      //     //To use the audio file via get Media API for bigger audio file sizes greater than 4MB
+      //       audioResult.getMedia((error: microsoftTeams.SdkError, blob: Blob) => {
+      //         if (blob) {
+      //           if (blob.type.includes("video")) {
+      //             //  videoElement.setAttribute("src", URL.createObjectURL(blob));
+      //           }
+      //         }
+      //       });
+      //     }
+      //   });
+      // }
+    }, []);
+
+    const recordData = () => {
       navigator.mediaDevices
         .getUserMedia({ audio: true })
         .then((mic) => {
@@ -80,7 +83,6 @@ export const RecordingArea = (props) => {
               active: false,
               available: true
             });
-            console.log("stopped");                                     
             mediaRecorder.stream.getTracks()[0].stop();
             props.callback(chunks.current[0], props.userID);
             chunks.current = [];
@@ -89,24 +91,23 @@ export const RecordingArea = (props) => {
             ...stream,
             access: true
           });
-          setRecorder(mediaRecorder);          
+          setRecorder(mediaRecorder);
+          mediaRecorder.start();
         })
         .catch((error) => {
           console.log(error);
           setStream({ ...stream, error: error.message });
         });
-    }, []);
-
+    };
     return (
-        <div id="profile-div">
-            <h2>Record your name</h2>
-            {stream.access ? (
-            <div>
-            <p className={recording.active ? "recordDiv" : ""}>
-                <Button icon={<MicIcon />} circular primary={recording.active} iconOnly title="Record your name" onMouseDown={() => !recording.active && recorder!.start()} onMouseUp={() => recorder!.stop()} />
-            </p>
-            </div>) : null}
-            {stream.error !== "" && <p>`No microphone ${stream.error}`</p>}
+        <div>
+          <h2>Record your name</h2>
+          <div>
+          <p className={recording.active ? "recordDiv" : ""}>
+              <Button icon={<MicIcon />} circular primary={recording.active} iconOnly title="Record your name" onMouseDown={() => recordData()} onMouseUp={() => recorder!.stop()} />
+          </p>
+          </div>
+          {stream.error !== "" && <p>`No microphone ${stream.error}`</p>}
         </div>
     );
 };

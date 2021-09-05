@@ -38,7 +38,12 @@ img.logo {
 	min-width: 76px;
 	height: auto;
 }
-
+.panelSize {
+	width: 260px;
+	h1 {
+		font-size: 1.4em;
+	}
+}
 .userRecording {
     width: 260px;
 }
@@ -52,4 +57,12 @@ img.logo {
 .audioIcon {
 	margin-right: 8px;
 	cursor: pointer;
+}
+.closeDiv {
+	position: relative;
+}
+.closeIcon {
+	cursor: pointer;
+	position: fixed;
+	left: 240px;
 }
