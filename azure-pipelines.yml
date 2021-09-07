@@ -1,8 +1,8 @@
 variables:
 - name: PUBLIC_HOSTNAME
-  value: mmoMeetingRecordName.azurewebsites.net
+  value: 
 - name: TAB_APP_ID
-  value: e5ab4f03-0052-4936-8b7e-17fdf534ef9e
+  value: 
   
 trigger:
   - main
