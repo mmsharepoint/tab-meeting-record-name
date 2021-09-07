@@ -11,7 +11,7 @@ It renders in pre-meeting experience (meetingDetailsTab) and in-meeting-experien
 :-------------------------:|:-------------------------:
 ![Result in meeting details tab](https://mmsharepoint.files.wordpress.com/2021/09/07premeeting_app_detailstab.png) | ![Result in meeting side panel](https://mmsharepoint.files.wordpress.com/2021/09/inmeeting_app.jpg)
 
-For further details see the author's [blog post](https://mmsharepoint.wordpress.com/)
+For further details see the author's [blog series](https://mmsharepoint.wordpress.com/2021/09/07/meeting-apps-in-microsoft-teams-1-pre-meeting/)
 
 ## Prerequisites
 
@@ -58,13 +58,20 @@ Version|Date|Author|Comments
     ```bash
     gulp start-ngrok
     ```
-- You will need to register an app in Azure AD [also described here](https://mmsharepoint.wordpress.com/2021/09/01/microsoft-graph-toolkit-in-a-teams-application-with-yo-teams-and-sso/)
+- You will need to register an app in Azure AD [also described here](https://mmsharepoint.wordpress.com/2021/09/07/meeting-apps-in-microsoft-teams-1-pre-meeting/#appreg)
   - with client secret
   - with **delegated** permissions Sites.ReadWrite.All
   - With exposed Api "access_as_user" and App ID Uri api://<NGrok-Url>/<App ID>
   - With the client IDs for Teams App and Teams Web App 1fec8e78-bce4-4aaf-ab1b-5451cc387264 and 5e3ce6c0-2b1f-4285-8d4b-75ee78787346
 - Also add the app ID and its secret to .env (taken from .env-sample) as TAB_APP_ID= and 
     - add the secret to TAB_APP_SECRET"
+- Create the content-type for your audios in a site / default document library of your choice
+    - Use \templates\Audio.xml as your provisioning template
+    - With PnP-PowerShell for instance call Invoke-PnPSiteTemplate
+        ```bash
+        Invoke-PnPSiteTemplate -Path <yourpath>\templates\Audio.xml
+    
+    - For the same site evaluate the SiteID (Microsoft Graph) with the Graph Explorer for instance and put it your .env as SiteID=
 - Package the app
     ```bash
     gulp manifest
