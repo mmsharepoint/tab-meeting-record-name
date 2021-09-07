@@ -1,63 +1,76 @@
 # tab meeting record name - Microsoft Teams App
+Teams Tab meeting app to record user names audio 
 
-Generate a Microsoft Teams application.
+## Summary
 
-TODO: Add your documentation here
+This sample is a Teams Tab meeting app created using the Teams Yeoman Generator. It allows to record user names as audio and stores them in a SharePoint document library. Therfore it uses Teams SSO with the on-behalf flow. 
+The audio files are rendered with a custom React component powered by @fluentui\react-northstar icons.
+It renders in pre-meeting experience (meetingDetailsTab) and in-meeting-experience (sidePanel, currently only supported in Teams Desktop client on physical hosts).
 
-## Getting started with Microsoft Teams Apps development
+|Result in meeting details tab | Result in meeting side panel|
+:-------------------------:|:-------------------------:
+![Result in meeting details tab](https://mmsharepoint.files.wordpress.com/2021/09/07premeeting_app_detailstab.png) | ![Result in meeting side panel](https://mmsharepoint.files.wordpress.com/2021/09/inmeeting_app.jpg)
 
-Head on over to [Microsoft Teams official documentation](https://developer.microsoft.com/en-us/microsoft-teams) to learn how to build Microsoft Teams Tabs or the [Microsoft Teams Yeoman generator docs](https://github.com/PnP/generator-teams/docs) for details on how this solution is set up.
+For further details see the author's [blog post](https://mmsharepoint.wordpress.com/)
 
-## Project setup
+## Prerequisites
 
-All required source code are located in the `./src` folder:
+* [Office 365 tenant](https://dev.office.com/sharepoint/docs/spfx/set-up-your-development-environment)
+* [Node.js](https://nodejs.org) version 10.14.1 or higher
+* [Gulp CLI](https://github.com/gulpjs/gulp-cli) `npm install gulp-cli --global`
+* [ngrok](https://ngrok.com) or similar tunneling application is required for local testing
 
-* `client` client side code
-* `server` server side code
-* `public` static files for the web site
-* `manifest` for the Microsoft Teams app manifest
+    ```bash
+    # determine node version
+    node --version
+    ```
 
-For further details see the [Yo Teams documentation](https://github.com/PnP/generator-teams/docs)
+## Version history
 
-## Building the app
+Version|Date|Author|Comments
+-------|----|----|--------
+1.0|Sep 07, 2021|[Markus Moeller](https://twitter.com/moeller2_0)|Initial release
 
-The application is built using the `build` Gulp task.
+## Disclaimer
 
-``` bash
-npm i -g gulp-cli
-gulp build
-```
+**THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.**
 
-## Building the manifest
+## Minimal Path to Awesome
+- Clone the repository
+    ```bash
+    git clone https://github.com/mmsharepoint/tab-meeting-record-name.git
+    ```
 
-To create the Microsoft Teams Apps manifest, run the `manifest` Gulp task. This will generate and validate the package and finally create the package (a zip file) in the `package` folder. The manifest will be validated against the schema and dynamically populated with values from the `.env` file.
+- In a console, navigate to `/tab-meeting-record-name`
 
-``` bash
-gulp manifest
-```
+    ```bash
+    cd tab-meeting-record-name
+    ```
 
-## Deploying the manifest
+- Install modules
 
-Using the `yoteams-deploy` plugin, automatically added to the project, deployment of the manifest to the Teams App store can be done manually using `gulp tenant:deploy` or by passing the `--publish` flag to any of the `serve` tasks.
+    ```bash
+    npm install
+    ```
 
+- Run ngrok and note down the given url
 
-## Configuration
-
-Configuration is stored in the `.env` file.
-
-## Debug and test locally
-
-To debug and test the solution locally you use the `serve` Gulp task. This will first build the app and then start a local web server on port 3007, where you can test your Tabs, Bots or other extensions. Also this command will rebuild the App if you change any file in the `/src` directory.
-
-``` bash
-gulp serve
-```
-
-To debug the code you can append the argument `debug` to the `serve` command as follows. This allows you to step through your code using your preferred code editor.
-
-``` bash
-gulp serve --debug
-```
+    ```bash
+    gulp start-ngrok
+    ```
+- You will need to register an app in Azure AD [also described here](https://mmsharepoint.wordpress.com/2021/09/01/microsoft-graph-toolkit-in-a-teams-application-with-yo-teams-and-sso/)
+  - with client secret
+  - with **delegated** permissions Sites.ReadWrite.All
+  - With exposed Api "access_as_user" and App ID Uri api://<NGrok-Url>/<App ID>
+  - With the client IDs for Teams App and Teams Web App 1fec8e78-bce4-4aaf-ab1b-5451cc387264 and 5e3ce6c0-2b1f-4285-8d4b-75ee78787346
+- Also add the app ID and its secret to .env (taken from .env-sample) as TAB_APP_ID= and 
+    - add the secret to TAB_APP_SECRET"
+- Package the app
+    ```bash
+    gulp manifest
+- Create a new teams meeting with at least one participant
+- Open the meeting in Edit mode
+- At the right end of the tabs click (+) to add a new app and sideload your package
 
 ## Useful links
  * [Debugging with Visual Studio Code](https://github.com/pnp/generator-teams/blob/master/docs/docs/vscode.md)
