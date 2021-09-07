@@ -1,11 +1,11 @@
 variables:
-- name: HOSTNAME
+- name: PUBLIC_HOSTNAME
   value: mmoMeetingRecordName.azurewebsites.net
-- name: PRONOUNCENAME_APP_ID
+- name: TAB_APP_ID
   value: e5ab4f03-0052-4936-8b7e-17fdf534ef9e
   
 trigger:
-  - master
+  - main
 
 stages:
   - stage: Build
