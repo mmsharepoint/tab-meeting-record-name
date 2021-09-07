@@ -1,3 +1,4 @@
+import { Provider } from "@fluentui/react-northstar";
 import Axios from "axios";
 import * as React from "react";
 import { CustomAudio } from "./CustomAudio";
@@ -29,10 +30,12 @@ export const UserRecordedName = (props) => {
     }, []);
 
     return (
-        <div className="userRecording">
-            <span>{props.userName}</span>
-            {/* {audioUrl !== "" && <audio controls src={audioUrl}></audio>} */}
-            {audioUrl !== "" && <CustomAudio audioUrl={audioUrl} />}
-        </div>
+        <Provider theme={props.theme} >
+            <div className="userRecording">
+                <span>{props.userName}</span>
+                {/* {audioUrl !== "" && <audio controls src={audioUrl}></audio>} */}
+                {audioUrl !== "" && <CustomAudio audioUrl={audioUrl} />}
+            </div>
+        </Provider>
     );
 };
