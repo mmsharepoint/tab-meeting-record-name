@@ -1,0 +1,63 @@
+{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.9/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.9",
+  "id": "7189eb50-0ee0-11ec-9c17-b1ca4f17cfa6",
+  "version": "0.0.1",
+  "packageName": "tabmeetingrecordname",
+  "developer": {
+    "name": "Markus Moeller",
+    "websiteUrl": "https://e252-156-67-129-211.ngrok.io",
+    "privacyUrl": "https://e252-156-67-129-211.ngrok.io/privacy.html",
+    "termsOfUseUrl": "https://e252-156-67-129-211.ngrok.io/tou.html"
+  },
+  "name": {
+    "short": "Tab meeting record name",
+    "full": "Tab meeting record name pronunciation"
+  },
+  "description": {
+    "short": "Record your username to share in a meeting.",
+    "full": "This app allows recording of your username to share in meeting how it's pronunced."
+  },
+  "icons": {
+    "outline": "icon-outline.png",
+    "color": "icon-color.png"
+  },
+  "accentColor": "#D85028",
+  "configurableTabs": [
+    {
+      "configurationUrl": "https://e252-156-67-129-211.ngrok.io/pronunceNameTab/config.html?name={loginHint}&tenant={tid}&group={groupId}&theme={theme}",
+      "canUpdateConfiguration": true,
+      "scopes": [
+        "groupchat"
+      ],
+      "context": [
+        "meetingDetailsTab",
+        "meetingChatTab",
+        "meetingSidePanel"
+      ],
+      "meetingSurfaces": [
+        "sidePanel"
+      ]
+    }
+  ],
+  "staticTabs": [],
+  "bots": [],
+  "connectors": [],
+  "composeExtensions": [],
+  "permissions": [
+    "identity",
+    "messageTeamMembers"
+  ],
+  "devicePermissions": [
+    "media"
+  ],
+  "validDomains": [
+    "e252-156-67-129-211.ngrok.io"
+  ],
+  "showLoadingIndicator": false,
+  "isFullScreen": false,
+  "webApplicationInfo": {
+    "id": "e5ab4f03-0052-4936-8b7e-17fdf534ef9e",
+    "resource": "api://e252-156-67-129-211.ngrok.io/e5ab4f03-0052-4936-8b7e-17fdf534ef9e"
+  }
+}
