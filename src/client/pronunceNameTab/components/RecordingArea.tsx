@@ -4,17 +4,14 @@ import * as microsoftTeams from "@microsoft/teams-js";
 
 export const RecordingArea = (props) => {
     const [recorder, setRecorder] = React.useState<MediaRecorder>();
-
     const [stream, setStream] = React.useState({
         access: false,
         error: ""
     });
-
     const [recording, setRecording] = React.useState({
         active: false,
         available: false
     });
-
     const chunks = React.useRef<any[]>([]);
 
     React.useEffect(() => {

@@ -161,10 +161,6 @@ export const meetingService = (options: any): express.Router => {
                     req.header("Authorization")!.replace("Bearer ", "") as string,
                     ["https://graph.microsoft.com/sites.readwrite.all"]);
                 
-                log(user);
-                log(req.files.file.name);
-                log(req.body.meetingID);
-                log(req.body.userID);
                 const uploadResponse = await uploadFile(req.files.file, accessToken);
                 const itemResponse = await getDriveItem(uploadResponse.id, accessToken);
                 const listResponse = await getList(accessToken);
