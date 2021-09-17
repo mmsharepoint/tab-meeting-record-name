@@ -9,7 +9,7 @@ It renders in pre-meeting experience (meetingDetailsTab) and in-meeting-experien
 
 |Result in meeting details tab | Result in meeting side panel|
 :-------------------------:|:-------------------------:
-![Result in meeting details tab](https://mmsharepoint.files.wordpress.com/2021/09/07premeeting_app_detailstab.png) | ![Result in meeting side panel](https://mmsharepoint.files.wordpress.com/2021/09/inmeeting_app.jpg)
+![Result in meeting details tab](https://mmsharepoint.files.wordpress.com/2021/09/07premeeting_app_detailstab-1.png) | ![Result in meeting side panel](https://mmsharepoint.files.wordpress.com/2021/09/inmeeting_app-1.jpg)
 
 For further details see the author's [blog series](https://mmsharepoint.wordpress.com/2021/09/07/meeting-apps-in-microsoft-teams-1-pre-meeting/)
 
@@ -30,6 +30,7 @@ For further details see the author's [blog series](https://mmsharepoint.wordpres
 Version|Date|Author|Comments
 -------|----|----|--------
 1.0|Sep 07, 2021|[Markus Moeller](https://twitter.com/moeller2_0)|Initial release
+1.1|Sep 17, 2021|[Markus Moeller](https://twitter.com/moeller2_0)|Added Microsoft Graph Toolkit and user images
 
 ## Disclaimer
 
@@ -75,6 +76,10 @@ Version|Date|Author|Comments
 - Package the app
     ```bash
     gulp manifest
+- Start the app
+    ```bash
+    gulp serve --debug
+    ```
 - Create a new teams meeting with at least one participant
 - Open the meeting in Edit mode
 - At the right end of the tabs click (+) to add a new app and sideload your package
