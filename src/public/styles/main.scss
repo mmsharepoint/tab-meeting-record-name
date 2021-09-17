@@ -47,6 +47,17 @@ img.logo {
 .userRecording {
     width: 260px;
 }
+.userPic {
+	width: 34px;
+	width: 34px;
+    display: table-cell;
+    vertical-align: middle;
+}
+.audioCell {
+	width: 225px;
+    display: table-cell;
+    padding-left: 8px;
+}
 .audioPanel {
 	border: 1px dotted;
     border-radius: 8px;
@@ -65,4 +76,7 @@ img.logo {
 	cursor: pointer;
 	position: fixed;
 	left: 240px;
+}
+mgt-person {
+	--avatar-size: 32px;
 }

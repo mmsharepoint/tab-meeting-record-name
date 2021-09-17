@@ -179,10 +179,10 @@ export const meetingService = (options: any): express.Router => {
     });
 
     router.get("/files/:meetingID",
-    pass.authenticate("oauth-bearer", { session: false }),
-    async (req: any, res: express.Response, next: express.NextFunction) => {
-        const user: any = req.user;
-        const meetingID = req.params.meetingID;
+        pass.authenticate("oauth-bearer", { session: false }),
+        async (req: any, res: express.Response, next: express.NextFunction) => {
+            const user: any = req.user;
+            const meetingID = req.params.meetingID;
             try {
                 const accessToken = await exchangeForToken(user.tid,
                     req.header("Authorization")!.replace("Bearer ", "") as string,
@@ -201,10 +201,10 @@ export const meetingService = (options: any): express.Router => {
     });
 
     router.get("/audio/:driveItemID",
-    pass.authenticate("oauth-bearer", { session: false }),
-    async (req: any, res: express.Response, next: express.NextFunction) => {
-        const user: any = req.user;
-        const driveItemId = req.params.driveItemID;
+        pass.authenticate("oauth-bearer", { session: false }),
+        async (req: any, res: express.Response, next: express.NextFunction) => {
+            const user: any = req.user;
+            const driveItemId = req.params.driveItemID;
             try {
                 const accessToken = await exchangeForToken(user.tid,
                     req.header("Authorization")!.replace("Bearer ", "") as string,
@@ -220,6 +220,26 @@ export const meetingService = (options: any): express.Router => {
             }
             catch (err) {
                 log(err);
+                if (err.status) {
+                    res.status(err.status).send(err.message);
+                } else {
+                    res.status(500).send(err);
+                }
+            }
+    });
+
+    router.post(
+        "/token",
+        pass.authenticate("oauth-bearer", { session: false }),
+        async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+            const user: any = req.user;
+            try {
+                const accessToken = await exchangeForToken(user.tid,
+                    req.header("Authorization")!.replace("Bearer ", "") as string,
+                    ["https://graph.microsoft.com/user.read","https://graph.microsoft.com/user.readbasic.all"]);
+                
+                res.json({ access_token: accessToken});
+            } catch (err) {
                 if (err.status) {
                     res.status(err.status).send(err.message);
                 } else {

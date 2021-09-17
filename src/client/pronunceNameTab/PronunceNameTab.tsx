@@ -89,7 +89,7 @@ export const PronunceNameTab = () => {
                 <Flex.Item>
                     <div>
                         {recordings.length > 0 && recordings.map((recording: any) => {
-                            return <UserRecordedName key={recording.id} userName={recording.username} driveItemId={recording.id} accessToken={accesstoken} dataUrl={recording.dataUrl} theme={theme} />;
+                            return <UserRecordedName key={recording.id} userName={recording.username} userID={recording.userID} driveItemId={recording.id} accessToken={accesstoken} dataUrl={recording.dataUrl} theme={theme} />;
                         })}
 
                         {(context && context.frameContext === microsoftTeams.FrameContexts.content) && <div>
